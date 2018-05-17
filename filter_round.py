@@ -1,4 +1,5 @@
 ## Takes in csv file and isolates round in Drafted attribute
+## writes over infile
 def filter_round(infile):
     lines = []
     row = []
