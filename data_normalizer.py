@@ -2,6 +2,7 @@ from parse import parse
 from parse import write_back
 import math
 import sys
+import os
 
 def correct_height(list): # Correct height to inches
     for i in range(len(list)):
@@ -45,9 +46,10 @@ def fix_names(list): # TODO Check this!!!!
 
 
 # Parse returns a list of dictionaries
+files_to_normalize = os.listdir("./csv_to_parse")
 features_to_normalize = ["Ht", "Wt", "40yd", "Vertical", "Bench", "Broad Jump", "3Cone", "Shuttle"]
-comb2018 = parse ("combine2018.csv")
+comb2018 = parse ("./csv_to_parse/"+"combine2018.csv")
 correct_height(comb2018)
 fix_names(comb2018)
 normalize_stat_list(comb2018, features_to_normalize)
-write_back("test_out.csv", comb2018)
+write_back("./new_csv/""test_out.csv", comb2018)
