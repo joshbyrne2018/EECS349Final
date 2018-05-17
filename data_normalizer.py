@@ -3,6 +3,7 @@ from parse import write_back
 import math
 import sys
 import os
+import re
 
 def correct_height(list): # Correct height to inches
     for i in range(len(list)):
@@ -22,7 +23,6 @@ def normalize_stat(list, stat): # stat is a string
         else:
             list[i][stat] = "?"
     range_val = max - min
-    print range_val
     for j in range(len(list)):
         if list[j][stat] != "?":
             list[j][stat] = float(list[j][stat]-min) / float(range_val)
@@ -35,21 +35,32 @@ def normalize_stat_list(data, stats):
 # TODO Add question marks to all columns
 def fix_names(list): # TODO Check this!!!!
     for i in range(len(list)):
-        for char in list[i]["Player"]:
-            if char in "'":
-                list[i]["Player"].replace(char,'')
+        list[i]["Player"] = list[i]["Player"].replace("'", "")
+        if list[i]["Drafted (tm/rnd/yr)"] != "":
+            list[i]["Drafted (tm/rnd/yr)"] = re.split(' / ', list[i]["Drafted (tm/rnd/yr)"])[1]
+        else:
+            list[i]["Drafted (tm/rnd/yr)"] = 0
+        print list[i]["Drafted (tm/rnd/yr)"]
 
+def listdir_nohidden(path):
+    f = os.listdir(path)
+    to_delete = []
+    for i in range(len(f)):
+        if ".D" in f[i]:
+            to_delete.append(f[i])
+    for j in to_delete:
+        f.remove(j)
+    return f
 
-# Extract just the round from the last column
+def main():
+    files_to_normalize = listdir_nohidden('./csv_to_parse')
+    features_to_normalize = ["Ht", "Wt", "40yd", "Vertical", "Bench", "Broad Jump", "3Cone", "Shuttle"]
+    for i in range(len(files_to_normalize)):
+        comb_stats = parse("./csv_to_parse/"+files_to_normalize[i])
+        correct_height(comb_stats)
+        fix_names(comb_stats)
+        normalize_stat_list(comb_stats, features_to_normalize)
+        write_back("./new_csv/"+files_to_normalize[i], comb_stats)
 
-
-
-
-# Parse returns a list of dictionaries
-files_to_normalize = os.listdir("./csv_to_parse")
-features_to_normalize = ["Ht", "Wt", "40yd", "Vertical", "Bench", "Broad Jump", "3Cone", "Shuttle"]
-comb2018 = parse ("./csv_to_parse/"+"combine2018.csv")
-correct_height(comb2018)
-fix_names(comb2018)
-normalize_stat_list(comb2018, features_to_normalize)
-write_back("./new_csv/""test_out.csv", comb2018)
+if __name__ == '__main__':
+    main()
