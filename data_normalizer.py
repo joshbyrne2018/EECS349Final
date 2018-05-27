@@ -4,6 +4,7 @@ import math
 import sys
 import os
 import re
+import numpy
 
 def correct_height(list): # Correct height to inches
     for i in range(len(list)):
@@ -40,7 +41,6 @@ def fix_names(list): # TODO Check this!!!!
             list[i]["Drafted (tm/rnd/yr)"] = re.split(' / ', list[i]["Drafted (tm/rnd/yr)"])[1]
         else:
             list[i]["Drafted (tm/rnd/yr)"] = 0
-        print list[i]["Drafted (tm/rnd/yr)"]
 
 def listdir_nohidden(path):
     f = os.listdir(path)
@@ -52,15 +52,40 @@ def listdir_nohidden(path):
         f.remove(j)
     return f
 
+
+
+def zscore(stat, list):
+    # goes through the dict to calculate z-score
+    a = []
+    for i in range(len(list)):
+        if type(list[i][stat]) is float:
+            a.append(list[i][stat])
+    std_dev = numpy.std(a)
+    mean = numpy.std(a)
+    for j in range(len(list)):
+        if type(list[j][stat]) is float:
+            list[j]['zscore_'+stat] = (list[j][stat]-mean)/std_dev
+        else:
+            list[j]['zscore_'+stat] = "?"
+
+def zscore_list(list_of_stats, list):
+    for i in range(len(list_of_stats)):
+        zscore(list_of_stats[i], list)
+
+
+
 def main():
     files_to_normalize = listdir_nohidden('./csv_to_parse')
     features_to_normalize = ["Ht", "Wt", "40yd", "Vertical", "Bench", "Broad Jump", "3Cone", "Shuttle"]
+    comb_stats = []
     for i in range(len(files_to_normalize)):
-        comb_stats = parse("./csv_to_parse/"+files_to_normalize[i])
-        correct_height(comb_stats)
-        fix_names(comb_stats)
-        normalize_stat_list(comb_stats, features_to_normalize)
-        write_back("./new_csv/"+files_to_normalize[i], comb_stats)
+        comb_stats.extend(parse("./csv_to_parse/"+files_to_normalize[i]))
+    correct_height(comb_stats)
+    fix_names(comb_stats)
+    normalize_stat_list(comb_stats, features_to_normalize)
+    zscore_list(features_to_normalize,comb_stats)
+    write_back("./interact_csv/"+"combined_stats.csv", comb_stats)
 
-if __name__ == '__main__':
+if __name_
+_ == '__main__':
     main()
