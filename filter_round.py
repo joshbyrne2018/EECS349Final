@@ -61,4 +61,4 @@ def drafted_or_not(infile,outfile):
         fout.writelines(line)
 
     fout.close()
-drafted_or_not("combine_training_data.csv", "combine_training_binary.csv")
+#drafted_or_not("combine_training_data.csv", "combine_training_binary.csv")

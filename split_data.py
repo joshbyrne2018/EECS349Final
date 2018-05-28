@@ -2,15 +2,16 @@
 import random
 
 
-def split():
-    fin = open("./merged_csv/combine2008-2018.csv", 'rb')
+def split(inFile):
+    fin = open(inFile, 'rb')
+    header = fin.readline()
     data = fin.readlines()[1:]
     random.shuffle(data)
 
-    f_train_out = open("./training_and_holdout_data/combine_training_data.csv", 'wb')
-    f_holdout_out = open("./training_and_holdout_data/combine_holdout_data.csv", 'wb')
-    f_train_out.write("School,Vertical,3Cone,Pos,Ht,Bench,Player,Broad Jump,Wt,College,40yd,Shuttle,Drafted (tm/rnd/yr)\n")
-    f_holdout_out.write("School,Vertical,3Cone,Pos,Ht,Bench,Player,Broad Jump,Wt,College,40yd,Shuttle,Drafted (tm/rnd/yr)\n")
+    f_train_out = open("./new_training_and_holdout_data/new_combine_training_data.csv", 'wb')
+    f_holdout_out = open("./new_training_and_holdout_data/new_combine_holdout_data.csv", 'wb')
+    f_train_out.write(header)
+    f_holdout_out.write(header)
 
     nLines = len(data)
     nTrain = nLines * 0.75
@@ -27,4 +28,4 @@ def split():
 
 
 if __name__ == '__main__':
-    split() 
+    split("./interact_csv/combined_stats_binary_with_interaction_attributes.csv")
