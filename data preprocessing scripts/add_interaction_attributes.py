@@ -35,15 +35,15 @@ def add_interaction_attributes(inFile):
     csv_input.drop("College", 1, inplace=True)
 
     # output csv
-    csv_input.to_csv('./interact_csv/combined_stats_binary_with_interaction_attributes.csv', sep=",", encoding="utf-8", index=False)
+    csv_input.to_csv('./normalized combine data (with z-scores & interaction attributes)/combined_stats_binary_with_interaction_attributes.csv', sep=",", encoding="utf-8", index=False)
 
 
 def main():
     # make data binary
-    filter_round.drafted_or_not("./interact_csv/combined_stats.csv", "./interact_csv/combined_stats_binary.csv")
+    filter_round.drafted_or_not("./normalized combine data (with z-scores & interaction attributes)/combined_stats.csv", "./normalized combine data (with z-scores & interaction attributes)/combined_stats_binary.csv")
 
     # add interaction attributes, remove pos and original zscore attributes
-    add_interaction_attributes("./interact_csv/combined_stats_binary.csv")
+    add_interaction_attributes("./normalized combine data (with z-scores & interaction attributes)/combined_stats_binary.csv")
 
 
 if __name__ == '__main__':

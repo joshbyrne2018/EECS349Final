@@ -84,7 +84,7 @@ def main():
     fix_names(comb_stats)
     normalize_stat_list(comb_stats, features_to_normalize)
     zscore_list(features_to_normalize,comb_stats)
-    write_back("./interact_csv/"+"combined_stats.csv", comb_stats)
+    write_back("./normalized combine data (with z-scores & interaction attributes)/"+"combined_stats.csv", comb_stats)
 
 
 if __name__ == '__main__':

@@ -28,4 +28,4 @@ def split(inFile):
 
 
 if __name__ == '__main__':
-    split("./interact_csv/combined_stats_binary_with_interaction_attributes.csv")
+    split("./normalized combine data (with z-scores & interaction attributes)/combined_stats_binary_with_interaction_attributes.csv")
