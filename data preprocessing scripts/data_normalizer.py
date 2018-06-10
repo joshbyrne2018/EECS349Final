@@ -75,11 +75,11 @@ def zscore_list(list_of_stats, list):
 
 
 def main():
-    files_to_normalize = listdir_nohidden('./raw combine csv files')
+    files_to_normalize = listdir_nohidden('./raw combine data')
     features_to_normalize = ["Ht", "Wt", "40yd", "Vertical", "Bench", "Broad Jump", "3Cone", "Shuttle"]
     comb_stats = []
     for i in range(len(files_to_normalize)):
-        comb_stats.extend(parse("./raw combine csv files/"+files_to_normalize[i]))
+        comb_stats.extend(parse("./raw combine data/"+files_to_normalize[i]))
     correct_height(comb_stats)
     fix_names(comb_stats)
     normalize_stat_list(comb_stats, features_to_normalize)
